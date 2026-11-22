@@ -11,9 +11,9 @@ Feito só com HTML, CSS e JavaScript (fetch), sem back-end e sem bibliotecas Jav
 
 | Nome completo | Matrícula |
 |---|---|
-| Caio Carvalho | 202520420 |
-| João Antonio | 202520153 |
-| Pedro Artur | 202611119 |
+| Caio Santos de Carvalho | 202520420 |
+| João Antonio Gonçalves de Almeida | 202520153 |
+| Pedro Artur Da Silva Fiqueredo | 202611119 |
 
 ## Links
 
