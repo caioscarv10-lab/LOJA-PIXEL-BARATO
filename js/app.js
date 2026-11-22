@@ -27,11 +27,13 @@ let promocoesCarregadas = false;
 let jogosFamosos = [];
 let catalogoPromocoes = [];
 
-function mostrarAba() {
+function mostrarAba(evento) {
   const endereco = location.hash || '#inicio';
 
   document.querySelectorAll('.tela').forEach(tela => tela.classList.add('d-none'));
-  limparMensagem();
+  if (evento) {
+    limparMensagem();
+  }
   window.scrollTo(0, 0);
 
   if (endereco.startsWith('#jogo/')) {
@@ -51,6 +53,12 @@ function mostrarAba() {
 }
 
 window.addEventListener('hashchange', mostrarAba);
+
+document.querySelectorAll('#menu .nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    bootstrap.Collapse.getOrCreateInstance('#menu', { toggle: false }).hide();
+  });
+});
 
 function mostrarMensagem(texto, tipo, tentarNovamente) {
   const area = document.getElementById('mensagem');
@@ -236,7 +244,7 @@ function criarCard(jogo, emPromocao) {
     <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
       <div class="card cartucho h-100">
         <img src="${jogo.imagem}" class="capa" alt="${jogo.titulo}"
-             onerror="this.src='${jogo.imagemReserva}'">
+             onerror="this.onerror=null; this.src='${jogo.imagemReserva}'">
         ${desconto}
         <div class="card-body d-flex flex-column">
           <h3 class="card-title">
@@ -319,9 +327,15 @@ document.getElementById('form-busca').addEventListener('submit', async (evento) 
 
   try {
     const semApelido = trocarApelido(termo).toLowerCase();
-    const busca = corrigirBusca(semApelido);
-    let aproximado = busca !== semApelido;
+    let busca = semApelido;
+    let aproximado = false;
     let encontrados = await buscarPorNome(busca);
+
+    if (encontrados.length === 0 && corrigirBusca(semApelido) !== semApelido) {
+      busca = corrigirBusca(semApelido);
+      encontrados = await buscarPorNome(busca);
+      aproximado = true;
+    }
 
     if (encontrados.length === 0 && busca.length > 4) {
       encontrados = await buscarPorNome(busca.slice(0, 4));
@@ -350,6 +364,10 @@ async function carregarDetalhes(id) {
 
   try {
     const dados = await buscarJSON(API_JOGOS + '/games?id=' + id);
+    if (!dados.deals || dados.deals.length === 0) {
+      mostrarMensagem('Esse jogo não está à venda em nenhuma loja agora. <a href="#inicio" class="alert-link">Voltar para o início</a>', 'info');
+      return;
+    }
     const melhor = dados.deals[0];
     const precoMercado = Number(melhor.price);
 
@@ -375,7 +393,7 @@ async function carregarDetalhes(id) {
       <div class="row g-4">
         <div class="col-12 col-md-6">
           <img src="${jogo.imagem}" class="capa-detalhe" alt="${jogo.titulo}"
-               onerror="this.src='${jogo.imagemReserva}'">
+               onerror="this.onerror=null; this.src='${jogo.imagemReserva}'">
         </div>
         <div class="col-12 col-md-6">
           <h1 class="h2">${jogo.titulo}</h1>
@@ -410,7 +428,6 @@ async function carregarDetalhes(id) {
 
 async function carregarPromocoes() {
   const select = document.getElementById('select-preco');
-  promocoesCarregadas = true;
   limparMensagem();
   document.getElementById('lista-promocoes').innerHTML = '';
   mostrarCarregando(true, select);
@@ -423,6 +440,7 @@ async function carregarPromocoes() {
     const famososEmPromocao = jogosFamosos.filter(jogo => jogo.emPromocao);
     const outros = jogos.filter(jogo => !jogosFamosos.some(famoso => famoso.id === jogo.id));
     catalogoPromocoes = famososEmPromocao.concat(outros);
+    promocoesCarregadas = true;
     filtrarPorPreco();
   } catch (erro) {
     tratarErro(erro, carregarPromocoes);
@@ -504,13 +522,17 @@ function adicionarAoCarrinho(id) {
     carrinho.push(jogo);
     mostrarMensagem(jogo.titulo + ' foi para o carrinho!', 'success');
   }
-  document.getElementById('contador-carrinho').textContent = carrinho.length;
+  atualizarContador();
 }
 
 function removerDoCarrinho(id) {
   carrinho = carrinho.filter(item => item.id !== id);
-  document.getElementById('contador-carrinho').textContent = carrinho.length;
+  atualizarContador();
   mostrarCarrinho();
+}
+
+function atualizarContador() {
+  document.getElementById('contador-carrinho').textContent = carrinho.length;
 }
 
 function totalDoCarrinho() {
@@ -627,7 +649,7 @@ function copiarCodigo(idCampo, idBotao) {
 document.getElementById('form-pedido').addEventListener('submit', async (evento) => {
   evento.preventDefault();
 
-  const nome = document.getElementById('campo-nome').value.trim();
+  const nome = document.getElementById('campo-nome').value.trim().replace(/[<>]/g, '');
   const email = document.getElementById('campo-email').value.trim();
   const pagamento = formaDePagamento();
   const parcelas = Number(document.getElementById('select-parcelas').value);
@@ -642,7 +664,7 @@ document.getElementById('form-pedido').addEventListener('submit', async (evento)
     mostrarMensagem('Digite seu nome.', 'warning');
     return;
   }
-  if (!email.includes('@') || !email.includes('.')) {
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
     mostrarMensagem('Digite um e-mail válido. Exemplo: voce@email.com', 'warning');
     return;
   }
@@ -683,7 +705,7 @@ document.getElementById('form-pedido').addEventListener('submit', async (evento)
     }
 
     carrinho = [];
-    document.getElementById('contador-carrinho').textContent = 0;
+    atualizarContador();
     evento.target.reset();
     mostrarCarrinho();
   } catch (erro) {
