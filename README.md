@@ -17,8 +17,9 @@ Feito só com HTML, CSS e JavaScript (fetch), sem back-end e sem bibliotecas Jav
 
 ## Links
 
-- **GitHub Pages:** https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/
-- **Repositório:** https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO
+- **GitHub Pages:**  https://caioscarv10-lab.github.io/LOJA-PIXEL-BARATO/
+- **Repositório:** https://github.com/caioscarv10-lab/LOJA-PIXEL-BARATO 
+
 
 ## Framework CSS
 
