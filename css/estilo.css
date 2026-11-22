@@ -1,0 +1,206 @@
+:root {
+  --fundo: #1c1717;
+  --preto: #0f0c0c;
+  --vermelho: #ff3d1f;
+  --texto-claro: #f3eded;
+}
+
+body {
+  background-color: var(--fundo);
+  color: var(--texto-claro);
+  font-family: 'Nunito', sans-serif;
+}
+
+h1, h2 {
+  font-family: 'Archivo Black', sans-serif;
+}
+
+img {
+  max-width: 100%;
+}
+
+.barra-topo {
+  background-color: var(--preto);
+  border-bottom: 4px solid var(--vermelho);
+}
+
+.logo-topo {
+  height: 56px;
+  mix-blend-mode: lighten;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);
+}
+
+.barra-topo .nav-link {
+  color: white !important;
+  font-weight: bold;
+}
+
+.barra-topo .nav-link:hover {
+  color: var(--vermelho) !important;
+}
+
+.contador {
+  background-color: var(--vermelho);
+  color: white;
+  border-radius: 10px;
+  padding: 0 7px;
+}
+
+.destaque {
+  padding: 40px 0;
+}
+
+.destaque h1 {
+  font-size: 2.6rem;
+  color: white;
+}
+
+.destaque h1 span {
+  color: var(--vermelho);
+}
+
+.cotacao {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 8px;
+}
+
+.titulo-secao {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.form-control,
+.form-select {
+  border: 2px solid var(--preto);
+}
+
+.btn-principal {
+  background-color: var(--vermelho);
+  color: white;
+  border: 2px solid var(--preto);
+  font-weight: bold;
+}
+
+.btn-principal:hover {
+  background-color: #d92a10;
+  color: white;
+}
+
+.btn-contorno {
+  background-color: white;
+  border: 2px solid var(--preto);
+  font-weight: bold;
+}
+
+.btn-contorno:hover {
+  background-color: var(--vermelho);
+  color: white;
+}
+
+.cartucho {
+  color: var(--preto);
+  border: 2px solid var(--preto);
+  box-shadow: 4px 4px 0 var(--vermelho);
+  overflow: hidden;
+}
+
+.capa {
+  aspect-ratio: 460 / 215;
+  object-fit: cover;
+  border-bottom: 2px solid var(--preto);
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.card-title a {
+  color: var(--preto);
+  text-decoration: none;
+}
+
+.preco-antigo {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.selo-desconto {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--vermelho);
+  color: white;
+  font-weight: bold;
+  padding: 2px 8px;
+}
+
+.por-cima {
+  position: relative;
+  z-index: 2;
+}
+
+.etiqueta {
+  background-color: var(--fundo);
+  color: white;
+  border: 2px solid var(--vermelho);
+  padding: 2px 8px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.etiqueta.grande {
+  font-size: 1.8rem;
+}
+
+.caixa {
+  background-color: #d4cdcd;
+  color: var(--preto);
+  border: 2px solid var(--preto);
+  box-shadow: 4px 4px 0 var(--vermelho);
+  padding: 20px;
+}
+
+.caixa a {
+  color: var(--preto);
+}
+
+.caixa .list-group-item {
+  background-color: transparent;
+}
+
+.caixa .table {
+  --bs-table-bg: transparent;
+  --bs-table-border-color: #a39999;
+  --bs-table-color: #000;
+  font-weight: bold;
+}
+
+.capa-detalhe {
+  width: 100%;
+  border: 2px solid var(--vermelho);
+}
+
+.alert {
+  margin-top: 16px;
+}
+
+.rodape {
+  background-color: var(--preto);
+  color: #ccc;
+  margin-top: 40px;
+  padding: 16px 0;
+}
+
+.equipe {
+  margin: 0;
+  color: #aaa;
+}
+
+.equipe span {
+  color: white;
+  font-weight: bold;
+  white-space: nowrap;
+}
